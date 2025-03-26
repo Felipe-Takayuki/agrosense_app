@@ -18,7 +18,7 @@ class _SignInState extends State<SignIn> {
           child: SingleChildScrollView(
             reverse: true,
             child: Column(
-              spacing: 20,
+              spacing: 10,
               mainAxisSize: MainAxisSize.min, 
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,23 +34,22 @@ class _SignInState extends State<SignIn> {
                   )),
                 SizedBox(
                   width: sizeOf.width * .9,
-                  child: Expanded(
-                    child: TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: "Digite a sua senha",
-                        prefixIcon: Icon(Icons.lock)
-                      ),
+                  child: TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: "Digite a sua senha",
+                      prefixIcon: Icon(Icons.lock)
                     ),
                   )),
                   TextButton(onPressed: (){}, child: Text("Esqueçeu a senha")),
             
                   SizedBox(
                     width: sizeOf.width  * .9,
-                    child: Expanded(child: ElevatedButton(onPressed: (){}, child: Text("Entrar", style: TextStyle(color: Colors.white, fontSize: 20),)
+                    height: sizeOf.height * .2/3,
+                    child: ElevatedButton(onPressed: (){}, child: Text("Entrar", style: TextStyle(color: Colors.white, fontSize: 20),)
                     )
-                    )
-                  )
+                  ), 
+
               ],
             ),
           ),

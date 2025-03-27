@@ -14,10 +14,16 @@ class AgroSenseTheme{
       disabledBorder: _inputBorder,
       border: _inputBorder,
       enabledBorder: _inputBorder,
+      labelStyle: TextStyle(color: Colors.black),
       errorBorder: _inputBorder,
       focusedBorder: _inputBorder,
-      focusColor: Colors.grey
+      focusColor: Colors.grey,
+      
     ), 
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.black, 
+    ),
+
     elevatedButtonTheme: ElevatedButtonThemeData(
 
       style: ElevatedButton.styleFrom(

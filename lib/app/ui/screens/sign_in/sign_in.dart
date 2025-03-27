@@ -1,3 +1,4 @@
+import 'package:agrosense_app/app/service/supabase_service.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -11,7 +12,8 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     final sizeOf = MediaQuery.sizeOf(context);
-
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
     return Scaffold(
       body: SafeArea(
         child: Form(
@@ -22,7 +24,6 @@ class _SignInState extends State<SignIn> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Image.asset('assets/images/logo.png'),
-
                   Center(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,22 +31,21 @@ class _SignInState extends State<SignIn> {
                         SizedBox(
                             width: sizeOf.width * .9,
                             child: TextFormField(
+                              controller: emailController,
                               decoration: InputDecoration(
                                   labelText: "Digite o seu e-mail",
                                   prefixIcon: Icon(Icons.person)),
                             )),
                         SizedBox(height: 26),
-
                         SizedBox(
                             width: sizeOf.width * .9,
                             child: TextFormField(
                               obscureText: true,
+                              controller: passwordController,
                               decoration: InputDecoration(
                                   labelText: "Digite a sua senha",
                                   prefixIcon: Icon(Icons.lock)),
-                        )),
-
-                        
+                            )),
                         GestureDetector(
                           child: Text("Esqueçeu a senha"),
                           onTap: () {},
@@ -55,7 +55,9 @@ class _SignInState extends State<SignIn> {
                             width: sizeOf.width * .9,
                             height: sizeOf.height * .2 / 3,
                             child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  SupabaseService().login(emailController.text, passwordController.text); 
+                                },
                                 child: Text(
                                   "Entrar",
                                   style: TextStyle(
@@ -69,12 +71,15 @@ class _SignInState extends State<SignIn> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
-                      Container(width: 10, height: 10, decoration: BoxDecoration(color: Colors.blue),),
-                      Container(width: 10, height: 10, decoration: BoxDecoration(color: Colors.blue),),
-                      Container(width: 10, height: 10, decoration: BoxDecoration(color: Colors.blue),)
-
-
+                      TextButton(
+                          onPressed: () {
+                            SupabaseService().googleSignIn();
+                          },
+                          child:   TextButton(
+                          onPressed: () {
+                            
+                          },
+                          child:Image.asset("assets/images/googleIcon.png")),),
                     ],
                   )
                 ],

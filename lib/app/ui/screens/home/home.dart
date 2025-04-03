@@ -73,9 +73,22 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(10),
                         color: const Color.fromRGBO(167, 158, 158, 1)
                       ),
-                      child:ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: imagem != null ? Image.file(File(imagem!.path), fit: BoxFit.cover, ) : Icon(Icons.camera_alt, size: 50,)),
+                      child:Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: imagem != null ? SizedBox(
+                              width: size.width *9,
+                              child: Image.file(File(imagem!.path), fit: BoxFit.cover, )) : null),
+                            Center(child: Container(
+                              
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(color: Color.fromARGB(128, 0, 0, 0), shape: BoxShape.circle),
+                              child: Icon(Icons.camera_alt, color: Colors.white, size: 30,))),
+
+                        ],
+                      ),
                     ),              
                   ),
                   SizedBox(

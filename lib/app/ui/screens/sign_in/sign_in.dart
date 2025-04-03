@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:agrosense_app/app/service/supabase_service.dart';
+import 'package:agrosense_app/app/ui/screens/home/home.dart';
+import 'package:agrosense_app/app/ui/screens/sign_in/sign_in_controller.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -14,16 +18,29 @@ class _SignInState extends State<SignIn> {
     final sizeOf = MediaQuery.sizeOf(context);
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
-    return Scaffold(
-      body: SafeArea(
-        child: Form(
+    final controller = SignInController();
+    Brightness bright = MediaQuery.of(context).platformBrightness;
+
+
+
+    var safeArea = SafeArea(
+        child:
+         Form(
           child: SingleChildScrollView(
             reverse: true,
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Image.asset('assets/images/logo.png'),
+                  SizedBox(
+                    height: sizeOf.height * .05,
+                  ),                  
+                  SizedBox(
+                    width: sizeOf.width * .8,
+                    child: Image.asset(bright == Brightness.light ? 'assets/images/logo.png' :'assets/images/logo_tdark.png', fit: BoxFit.contain,)),
+                  SizedBox(
+                    height: sizeOf.height * .05,
+                  ),  
                   Center(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +64,7 @@ class _SignInState extends State<SignIn> {
                                   prefixIcon: Icon(Icons.lock)),
                             )),
                         GestureDetector(
-                          child: Text("Esqueçeu a senha"),
+                          child: Text("Esqueçeu a senha", style: Theme.of(context).textTheme.bodySmall,),
                           onTap: () {},
                         ),
                         SizedBox(height: 26),
@@ -55,8 +72,8 @@ class _SignInState extends State<SignIn> {
                             width: sizeOf.width * .9,
                             height: sizeOf.height * .2 / 3,
                             child: ElevatedButton(
-                                onPressed: () {
-                                  SupabaseService().login(emailController.text, passwordController.text); 
+                                onPressed: () async {
+                                  controller.signIn(emailController.text, passwordController.text, context);
                                 },
                                 child: Text(
                                   "Entrar",
@@ -67,19 +84,27 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   SizedBox(height: 60),
-                  Text("entradas alternativas"),
+                  Text("entradas alternativas", style: Theme.of(context).textTheme.bodySmall,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       TextButton(
-                          onPressed: () {
-                            SupabaseService().googleSignIn();
-                          },
-                          child:   TextButton(
-                          onPressed: () {
+                          onPressed: () async {
+
+                           final login =  await SupabaseService().googleSignIn();
+                           if (login.user != null) {
+                            if (context.mounted) {
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home() ));
+                            } else {
+                              log("Erro com o context");
+                            }
+                           } else {
+                            log("Erro ao tentar logar");
+                           }
                             
                           },
-                          child:Image.asset("assets/images/googleIcon.png")),),
+                    
+                          child:Image.asset("assets/images/googleIcon.png")),
                     ],
                   )
                 ],
@@ -87,7 +112,9 @@ class _SignInState extends State<SignIn> {
             ),
           ),
         ),
-      ),
+      );
+    return Scaffold(
+      body: ListenableBuilder(listenable: controller, builder: (context,child) => safeArea),
     );
   }
 }

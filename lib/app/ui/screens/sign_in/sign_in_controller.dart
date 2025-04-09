@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:agrosense_app/app/service/auth_service.dart';
 import 'package:agrosense_app/app/service/supabase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -29,11 +30,20 @@ class SignInController extends ChangeNotifier {
   
   Future<void> googleSignIn(BuildContext context) async {
     final login = await supabase.googleSignIn();
-    if (login.session != null) {
+    if (login!.session != null) {
       if (context.mounted) {
         context.go("/home");
 
       } 
+    }
+  }
+
+  Future<void> authGoogleSignIn(BuildContext context) async {
+    final login = await AuthService().signWithGoogle();
+    if (login != null){
+      if(context.mounted) {
+        context.go("/home"); 
+      }
     }
   }
 }

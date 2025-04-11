@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
   void initState()  {
     CameraService cameraService = CameraService();
     cameraService.getImage().then((value) {
-      if (value != null) {
+      if (value != "") {
         setState(() {
                 imagem = XFile(value); 
         });

@@ -1,10 +1,6 @@
-
-import 'package:agrosense_app/app/service/auth_service.dart';
-import 'package:agrosense_app/app/service/supabase_service.dart';
 import 'package:agrosense_app/app/ui/screens/sign_in/sign_in_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});

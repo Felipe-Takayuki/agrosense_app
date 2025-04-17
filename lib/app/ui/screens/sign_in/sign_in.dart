@@ -30,7 +30,7 @@ class _SignInState extends State<SignIn> {
           ),
            child: Form(
             child: SingleChildScrollView(
-              reverse: true,
+              reverse: false,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,

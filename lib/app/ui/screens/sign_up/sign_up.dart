@@ -1,4 +1,5 @@
 import 'package:agrosense_app/app/ui/screens/sign_up/sign_up_controller.dart';
+import 'package:agrosense_app/app/ui/widgets/templete.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,32 +12,36 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
     final controller = SignUpController();
-
+    final nameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final nameFocus = FocusNode();
+    final emailFocus = FocusNode();
+    final passwordFocus = FocusNode();
   @override
   void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     controller.dispose();
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
+    
     final sizeOf = MediaQuery.sizeOf(context);
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
+
     Brightness bright = MediaQuery.of(context).platformBrightness;
 
-
+    
 
     var safeArea = SafeArea(
         child:
-         Container(
+         TemplateWidget(
           height: sizeOf.height,
-          decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage(bright == Brightness.light ? "assets/images/background_light.png" : "assets/images/background.png" ), fit: BoxFit.cover)
 
-          ),
            child: Form(
             child: SingleChildScrollView(
-              reverse: true,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -55,12 +60,30 @@ class _SignUpState extends State<SignUp> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                          
+                          SizedBox(
+                              width: sizeOf.width * .9,
+                              child: TextFormField(
+                                controller: nameController,
+                                focusNode: nameFocus,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted:(_){
+                                  FocusScope.of(context).requestFocus(emailFocus);
+                                },
+                                decoration: InputDecoration(
+                                    labelText: "Digite o seu nome",
+                                    prefixIcon: Icon(Icons.person)),
+                              )),
                           SizedBox(height: 13),
 
                           SizedBox(
                               width: sizeOf.width * .9,
                               child: TextFormField(
                                 controller: emailController,
+                                focusNode: emailFocus,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted:(_){
+                                  FocusScope.of(context).requestFocus(passwordFocus);
+                                },
                                 decoration: InputDecoration(
                                     labelText: "Digite o seu e-mail",
                                     prefixIcon: Icon(Icons.person)),
@@ -71,6 +94,11 @@ class _SignUpState extends State<SignUp> {
                               child: TextFormField(
                                 obscureText: true,
                                 controller: passwordController,
+                                focusNode: nameFocus,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted:(_){
+                                  FocusScope.of(context).unfocus();
+                                },
                                 decoration: InputDecoration(
                                     labelText: "Digite a sua senha",
                                     prefixIcon: Icon(Icons.lock)),
@@ -85,7 +113,7 @@ class _SignUpState extends State<SignUp> {
                               height: sizeOf.height * .2 / 3,
                               child: ElevatedButton(
                                   onPressed: () async {
-                                    await controller.signUp(emailController.text, passwordController.text, context); 
+                                    await controller.signUp(nameController.text,emailController.text, passwordController.text, context, sizeOf.width); 
                                   },
                                   child: Text(
                                     "Cadastrar-se",

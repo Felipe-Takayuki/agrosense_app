@@ -1,4 +1,5 @@
 import 'package:agrosense_app/app/ui/screens/sign_in/sign_in_controller.dart';
+import 'package:agrosense_app/app/ui/widgets/templete.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,24 +11,31 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final controller = SignInController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final emailFocus = FocusNode();
+  final passwordFocus = FocusNode();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    emailFocus.dispose();
+    passwordFocus.dispose();
+    controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final sizeOf = MediaQuery.sizeOf(context);
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final controller = SignInController();
     Brightness bright = MediaQuery.of(context).platformBrightness;
 
 
 
     var safeArea = SafeArea(
         child:
-         Container(
+         TemplateWidget(
           height: sizeOf.height,
-          decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage(bright == Brightness.light ? "assets/images/background_light.png" : "assets/images/background.png" ), fit: BoxFit.cover)
-
-          ),
            child: Form(
             child: SingleChildScrollView(
               reverse: false,
@@ -51,6 +59,11 @@ class _SignInState extends State<SignIn> {
                           SizedBox(
                               width: sizeOf.width * .9,
                               child: TextFormField(
+                                focusNode: emailFocus,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted:(_){
+                                  FocusScope.of(context).requestFocus(passwordFocus);
+                                },
                                 controller: emailController,
                                 decoration: InputDecoration(
                                     labelText: "Digite o seu e-mail",
@@ -60,6 +73,11 @@ class _SignInState extends State<SignIn> {
                           SizedBox(
                               width: sizeOf.width * .9,
                               child: TextFormField(
+                                focusNode: passwordFocus,
+                                textInputAction: TextInputAction.done,
+                                onFieldSubmitted:(_){
+                                  FocusScope.of(context).unfocus();
+                                },
                                 obscureText: true,
                                 controller: passwordController,
                                 decoration: InputDecoration(
@@ -75,7 +93,7 @@ class _SignInState extends State<SignIn> {
                               width: sizeOf.width * .9,
                               height: sizeOf.height * .2 / 3,
                               child: ElevatedButton(
-                                  onPressed: () async {
+                                  onPressed: () {
                                     controller.signIn(emailController.text, passwordController.text, context);
                                   },
                                   child: Text(

@@ -94,7 +94,7 @@ class _SignUpState extends State<SignUp> {
                               child: TextFormField(
                                 obscureText: true,
                                 controller: passwordController,
-                                focusNode: nameFocus,
+                                focusNode: passwordFocus,
                                 textInputAction: TextInputAction.next,
                                 onFieldSubmitted:(_){
                                   FocusScope.of(context).unfocus();

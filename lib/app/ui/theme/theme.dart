@@ -7,7 +7,10 @@ class AgroSenseTheme{
   );
 
   static const _floatActionButtonStyle = FloatingActionButtonThemeData(backgroundColor: Color.fromARGB(255, 255, 205, 7));
-  static const _textStyle = TextTheme(bodySmall: TextStyle(fontSize: 15), bodyMedium: TextStyle(fontSize: 20), );
+  static const _textStyle = TextTheme(
+    bodySmall: TextStyle(fontSize: 15), // para os botões 
+    bodyMedium: TextStyle(fontSize: 20), 
+  );
     
   static final theme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
@@ -16,7 +19,7 @@ class AgroSenseTheme{
       filled: true,
       fillColor: Color(0xffC9C9C9),
       disabledBorder: _inputBorder,
-      border: _inputBorder,
+      border: _inputBorder, 
       enabledBorder: _inputBorder,
       labelStyle: TextStyle(color: Colors.black),
       errorBorder: _inputBorder,

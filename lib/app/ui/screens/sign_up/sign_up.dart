@@ -1,5 +1,5 @@
 import 'package:agrosense_app/app/ui/screens/sign_up/sign_up_controller.dart';
-import 'package:agrosense_app/app/ui/widgets/templete.dart';
+import 'package:agrosense_app/app/ui/widgets/template.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

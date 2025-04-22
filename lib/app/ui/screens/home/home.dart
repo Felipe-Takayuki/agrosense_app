@@ -1,8 +1,8 @@
 
 import 'dart:io';
-
 import 'package:agrosense_app/app/service/camera_service.dart';
-import 'package:camera/camera.dart';
+import 'package:agrosense_app/app/ui/screens/home/home_controller.dart';
+import 'package:agrosense_app/app/ui/widgets/template.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  XFile? imagem;
+  String? imagem;
   List<String?> imagens = [];
 
 
@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
     cameraService.getImage().then((value) {
       if (value != "") {
         setState(() {
-                imagem = XFile(value); 
+                imagem = value; 
         });
       }
     },);
@@ -40,14 +40,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    Brightness bright = MediaQuery.of(context).platformBrightness;
+    final HomeController homeController = HomeController();
 
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage(bright == Brightness.light ? "assets/images/background_light.png" : "assets/images/background.png" ), fit: BoxFit.cover)
-          ),
+        child: TemplateWidget(
+          height: size.height,
           child: Center(
             child: SizedBox(
               width: size.width * .9,
@@ -57,9 +55,7 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 50,),
-                  // TextButton(onPressed: (){
-                  //   Supabase.instance.client.auth.signOut();
-                  // }, child: Text("Deslogar")),
+
                   GestureDetector(
                     onTap: () {
                       context.go("/camera", extra:{
@@ -80,7 +76,7 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(10),
                             child: imagem != null ? SizedBox(
                               width: size.width *9,
-                              child: Image.file(File(imagem!.path), fit: BoxFit.cover, )) : null),
+                              child: Image.file(File(imagem!), fit: BoxFit.cover, )) : null),
                             Center(child: Container(
                               
                               padding: EdgeInsets.all(20),
@@ -93,7 +89,9 @@ class _HomeState extends State<Home> {
                   ),
                   SizedBox(
                     width: size.width * .88,
-                    child: ElevatedButton(onPressed: (){}, child: Text("Análisar Imagem", style: TextStyle(color: Colors.black),))
+                    child: ElevatedButton(onPressed: () async{
+                      //await Supabase.instance.client.auth.signOut();
+                    }, child: Text("Análisar Imagem", style: TextStyle(color: Colors.black),))
                   ),
           
                   imagem != null ? SizedBox(
@@ -118,7 +116,9 @@ class _HomeState extends State<Home> {
                   ) : Container(),
                   SizedBox(
                     width: size.width * .88,
-                    child: ElevatedButton(onPressed: (){}, child: Text("Salvar Imagens na Galeria", style: TextStyle(color: Colors.black),))
+                    child: ElevatedButton(onPressed: (){
+                      homeController.saveAllImages();
+                    }, child: Text("Salvar Imagens na Galeria", style: TextStyle(color: Colors.black),))
                   )
               
                 ],

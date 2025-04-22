@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:agrosense_app/app/service/camera_service.dart';
+import 'package:agrosense_app/app/ui/widgets/template.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:go_router/go_router.dart';
@@ -70,15 +71,14 @@ class _CameraTelaState extends State<CameraTela> {
 
   @override
   Widget build(BuildContext context) {
+
     size = MediaQuery.of(context).size;
     return Scaffold(
 
       
 
-      body: Container(
-        width: size!.width,
+      body: TemplateWidget(
         height: size!.height,
-        color: Colors.grey[900],
         child: _arquivoWidget(),
       ),
       floatingActionButton: (imagem != null)
@@ -98,9 +98,11 @@ class _CameraTelaState extends State<CameraTela> {
   }
 
   _arquivoWidget() {
-    return SizedBox(
-      width: size!.width * .9,
-      height: size!.height ,
+    return SizedBox
+      (
+  
+      width: size!.width ,
+      height: size!.height  ,
       child: imagem == null
           ? _cameraPreviewWidget()
           : Image.file(
@@ -116,12 +118,15 @@ class _CameraTelaState extends State<CameraTela> {
     if (cameraController == null || !cameraController.value.isInitialized) {
       return const Text('Widget para Câmera que não está disponível');
     } else {
-      return Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          CameraPreview(controller!),
-          _botaoCapturaWidget(),
-        ],
+      return SizedBox(
+        height: size!.height,
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            Positioned.fill(child: CameraPreview(controller!)),
+            _botaoCapturaWidget(),
+          ],
+        ),
       );
     }
   }

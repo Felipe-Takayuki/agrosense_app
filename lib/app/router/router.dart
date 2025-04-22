@@ -13,7 +13,10 @@ class ConfigRouter {
     GoRoute(path: "/home", builder: (context,state){
       return  Home();
     }),
-  
+    GoRoute(
+      path: '/',
+      redirect: (_, __) => '/sign_in',
+    ),
     GoRoute(path: "/sign_in", builder: (context, state) {
       return const SignIn();
     },),

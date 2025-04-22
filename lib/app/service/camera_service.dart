@@ -24,17 +24,32 @@ Future<void> _addImage(String newImage) async {
     _addImage(imagePath);
   }
 
+  void registerSaveImageGallery(String newImage) async {
+    final instance = await _instance();
+    List<String> listaAtual = instance.getStringList('gallery_images') ?? [];
+
+    listaAtual.add(newImage);
+
+    await instance.setStringList('gallery_images', listaAtual);
+  } 
+
   Future<String> getImage() async {
     final instance = await _instance();
     final path = instance.getString("image");
     return path!;
   }
+  
   Future<List<String?>> getImages() async {
     final instancia = await _instance();
     final listas = instancia.getStringList("images");
     return listas!;
   }
-
+  
+  Future<List<String?>> getSavedImages() async {
+    final instancia = await _instance();
+    final listas = instancia.getStringList("gallery_images") ?? [];
+    return listas;
+  }
   
 
   

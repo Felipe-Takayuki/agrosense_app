@@ -13,6 +13,9 @@ class AgroSenseTheme{
   );
     
   static final theme = ThemeData(
+    appBarTheme: AppBarTheme(
+      backgroundColor: const Color.fromARGB(255, 239, 239, 239)
+    ),
     scaffoldBackgroundColor: Colors.white,
     textTheme: _textStyle.apply(bodyColor: Colors.black),
     inputDecorationTheme: InputDecorationTheme(
@@ -39,6 +42,9 @@ class AgroSenseTheme{
   );
 
   static final darkTheme = ThemeData(
+    appBarTheme: AppBarTheme(
+      backgroundColor: const Color.fromARGB(255, 7, 39, 65)
+    ),
     textTheme: _textStyle.apply(
       bodyColor: Colors.white,
       displayColor: Colors.white

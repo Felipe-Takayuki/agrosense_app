@@ -1,16 +1,29 @@
 # agrosense_app
+Aplicativo que está sendo desenvolvido pelo agrosense
 
-A new Flutter project.
 
-## Getting Started
+### Tecnologias Usadas 
+- Flutter 
+- Supabase 
 
-This project is a starting point for a Flutter application.
+### Como Iniciar 
+``` 
+git clone https://github.com/Felipe-Takayuki/agrosense_app.git
 
-A few resources to get you started if this is your first Flutter project:
+cd agrosense_app
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+flutter pub get 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+flutter run 
+```
+
+### Andamento do projeto 
+
+- Login ✅
+- Cadastro ✅
+- Salvamento de imagens na galeria ✅
+- Login e Cadastro com Google ✅ 
+- Análise das imagens com IA ⚠️ 
+- Geração de gráficos estatisticos ⚠️
+- Geolocalização ⚠️
+

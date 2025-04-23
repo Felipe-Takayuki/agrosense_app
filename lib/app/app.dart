@@ -1,6 +1,5 @@
 
-import 'package:agrosense_app/app/ui/screens/home/home.dart';
-import 'package:agrosense_app/app/ui/screens/sign_in/sign_in.dart';
+import 'package:agrosense_app/app/router/router.dart';
 import 'package:agrosense_app/app/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -14,14 +13,11 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp( 
+    return MaterialApp.router( 
       debugShowCheckedModeBanner: false,
       theme: AgroSenseTheme.theme,
-      initialRoute: "/sign_in",
-      routes: {
-        "/home" : (context) => Home(),
-        "/sign_in": (context) => SignIn()
-      },
+      darkTheme: AgroSenseTheme.darkTheme,
+      routerConfig: ConfigRouter().router,
     );
   }
 }

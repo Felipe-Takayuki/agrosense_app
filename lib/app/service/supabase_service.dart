@@ -47,7 +47,9 @@ class SupabaseService {
     }
 
   }
-
+  Future<void> signOut() async {
+    await instance.auth.signOut();
+  }
   Future<AuthResponse> signUp(String displayName,String email, String password) async {
     return await instance.auth.signUp(email: email,password: password, data: {
       "display_name" : displayName

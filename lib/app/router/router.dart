@@ -1,7 +1,7 @@
 import 'package:agrosense_app/app/ui/screens/camera/camera.dart';
 import 'package:agrosense_app/app/ui/screens/home/home.dart';
-import 'package:agrosense_app/app/ui/screens/sign_in/sign_in.dart';
-import 'package:agrosense_app/app/ui/screens/sign_up/sign_up.dart';
+import 'package:agrosense_app/app/ui/screens/auth/sign_in.dart';
+import 'package:agrosense_app/app/ui/screens/auth/sign_up.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

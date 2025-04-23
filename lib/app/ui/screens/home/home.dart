@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'package:agrosense_app/app/service/camera_service.dart';
+import 'package:agrosense_app/app/service/supabase_service.dart';
 import 'package:agrosense_app/app/ui/screens/home/home_controller.dart';
 import 'package:agrosense_app/app/ui/widgets/template.dart';
 import 'package:flutter/material.dart';
@@ -41,8 +42,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final HomeController homeController = HomeController();
+    Brightness bright = MediaQuery.of(context).platformBrightness;
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          SupabaseService().instance.auth.signOut();
+          context.go("/sign_in");
+        }, icon: Icon(Icons.chevron_left, color: bright == Brightness.dark ? Colors.white : Colors.black,)),
+      ),
       body: SafeArea(
         child: TemplateWidget(
           height: size.height,
@@ -52,10 +60,10 @@ class _HomeState extends State<Home> {
               child: Column(
                 spacing: size.height * .01,
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 50,),
-
+                  SizedBox(height: 12,),
                   GestureDetector(
                     onTap: () {
                       context.go("/camera", extra:{
@@ -90,7 +98,6 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     width: size.width * .88,
                     child: ElevatedButton(onPressed: () async{
-                      //await Supabase.instance.client.auth.signOut();
                     }, child: Text("Análisar Imagem", style: TextStyle(color: Colors.black),))
                   ),
           

@@ -13,10 +13,9 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router( 
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AgroSenseTheme.theme,
-      darkTheme: AgroSenseTheme.darkTheme,
       routerConfig: ConfigRouter().router,
     );
   }

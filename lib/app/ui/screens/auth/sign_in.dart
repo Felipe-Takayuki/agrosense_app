@@ -25,121 +25,142 @@ class _SignInState extends State<SignIn> {
     controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final sizeOf = MediaQuery.sizeOf(context);
-    Brightness bright = MediaQuery.of(context).platformBrightness;
-
-
 
     var safeArea = SafeArea(
-        child:
-         TemplateWidget(
-          height: sizeOf.height,
-           child: Form(
-            child: SingleChildScrollView(
-              reverse: false,
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(
-                      height: sizeOf.height * .05,
-                    ),                  
-                    SizedBox(
-                      width: sizeOf.width * .8,
-                      child: Image.asset(bright == Brightness.light ? 'assets/images/logo.png' :'assets/images/logo_tdark.png', fit: BoxFit.contain,)),
-                    SizedBox(
-                      height: sizeOf.height * .05,
-                    ),  
-                    Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              width: sizeOf.width * .9,
-                              child: TextFormField(
-                                focusNode: emailFocus,
-                                textInputAction: TextInputAction.next,
-                                onFieldSubmitted:(_){
-                                  FocusScope.of(context).requestFocus(passwordFocus);
-                                },
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                    labelText: "Digite o seu e-mail",
-                                    prefixIcon: Icon(Icons.person)),
-                              )),
-                          SizedBox(height: 26),
-                          SizedBox(
-                              width: sizeOf.width * .9,
-                              child: TextFormField(
-                                focusNode: passwordFocus,
-                                textInputAction: TextInputAction.done,
-                                onFieldSubmitted:(_){
-                                  FocusScope.of(context).unfocus();
-                                },
-                                obscureText: true,
-                                controller: passwordController,
-                                decoration: InputDecoration(
-                                    labelText: "Digite a sua senha",
-                                    prefixIcon: Icon(Icons.lock)),
-                              )),
-                          GestureDetector(
-                            child: Text("Esqueçeu a senha", style: Theme.of(context).textTheme.bodySmall,),
-                            onTap: () {},
-                          ),
-                          SizedBox(height: 26),
-                          SizedBox(
-                              width: sizeOf.width * .9,
-                              height: sizeOf.height * .2 / 3,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    controller.signIn(emailController.text, passwordController.text, context);
-                                  },
-                                  child: Text(
-                                    "Entrar",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
-                                  ))),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 60),
-                    Text("entradas alternativas", style: Theme.of(context).textTheme.bodySmall,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: TemplateWidget(
+        height: sizeOf.height,
+        child: Form(
+          child: SingleChildScrollView(
+            reverse: false,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: sizeOf.height * .03,
+                  ),
+                  SizedBox(
+                      width: sizeOf.width * .5,
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        fit: BoxFit.contain,
+                      )),
+                  SizedBox(
+                    height: sizeOf.height * .05,
+                  ),
+                  Text(
+                    "Bem Vindo ao sistema AgroSense",
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  SizedBox(
+                    height: sizeOf.height * .05,
+                  ),
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextButton(
-                            onPressed:()async{
-                              controller.googleSignInOrSignUp(context);
-                            },
-                            child:Image.asset("assets/images/googleIcon.png")),
+                        SizedBox(
+                            width: sizeOf.width * .9,
+                            child: TextFormField(
+                              focusNode: emailFocus,
+                              textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(passwordFocus);
+                              },
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                  labelText: "Digite o seu e-mail",
+                                  prefixIcon: Icon(Icons.mail)),
+                            )),
+                        SizedBox(height: sizeOf.height * .03),
+                        SizedBox(
+                            width: sizeOf.width * .9,
+                            child: TextFormField(
+                              focusNode: passwordFocus,
+                              textInputAction: TextInputAction.done,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context).unfocus();
+                              },
+                              obscureText: true,
+                              controller: passwordController,
+                              decoration: InputDecoration(
+                                  labelText: "Digite a sua senha",
+                                  prefixIcon: Icon(Icons.lock)),
+                            )),
+                        SizedBox(height: sizeOf.height * .03),
+                        GestureDetector(
+                          child: Text(
+                            "Esqueçeu a senha",
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          onTap: () {},
+                        ),
+                        SizedBox(height: 26),
+                        SizedBox(
+                            width: sizeOf.width * .9,
+                            height: sizeOf.height * .2 / 3,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  controller.signIn(emailController.text,
+                                      passwordController.text, context);
+                                },
+                                child: Text(
+                                  "Entrar",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ))),
                       ],
                     ),
-                    SizedBox(
-                      height: sizeOf.height * .05,
-                    ),
-                    
-                    GestureDetector(
+                  ),
+                  SizedBox(height: 60),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                          onPressed: () async {
+                            controller.googleSignInOrSignUp(context);
+                          },
+                          child: Image.asset("assets/images/googleIcon.png")),
+                    ],
+                  ),
+                  SizedBox(
+                    height: sizeOf.height * .05,
+                  ),
+                  GestureDetector(
                       onTap: () {
                         context.go("/sign_up");
                       },
-                      child: Text("Registre-se", style: Theme.of(context).textTheme.bodyMedium,),
-                    ),
-                    
-                    SizedBox(
-                      height: sizeOf.height * .05,
-                    ),
-                  ],
-                ),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                            style: Theme.of(context).textTheme.labelMedium,
+                            children: [
+                              TextSpan(text: "Não possui uma conta?\n"),
+                              TextSpan(
+                                  text: "Crie agora",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 214, 173, 10),
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      )),
+                  SizedBox(
+                    height: sizeOf.height * .05,
+                  ),
+                ],
               ),
             ),
-                   ),
-         ),
-      );
+          ),
+        ),
+      ),
+    );
     return Scaffold(
-
-      body: ListenableBuilder(listenable: controller, builder: (context,child) => safeArea),
+      body: ListenableBuilder(
+          listenable: controller, builder: (context, child) => safeArea),
     );
   }
 }

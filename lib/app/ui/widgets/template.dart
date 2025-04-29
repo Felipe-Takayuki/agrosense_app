@@ -10,15 +10,14 @@ class TemplateWidget extends StatefulWidget {
 }
 
 class _TemplateWidgetState extends State<TemplateWidget> {
-  
+
   @override
   Widget build(BuildContext context) {
-    Brightness bright = MediaQuery.of(context).platformBrightness;
 
     return Container(
           height: widget.height,
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage(bright == Brightness.light ? "assets/images/background_light.png" : "assets/images/background.png" ), fit: BoxFit.cover)
+            image: DecorationImage(image: AssetImage("assets/images/background_light.png"), fit: BoxFit.cover)
           ),
           child: widget.child,
     );

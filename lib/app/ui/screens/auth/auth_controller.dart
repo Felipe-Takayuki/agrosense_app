@@ -26,7 +26,7 @@ class AuthController extends ChangeNotifier {
 
   Future<void> googleSignInOrSignUp(BuildContext context) async {
     final login = await supabase.googleSignIn();
-    if (login!.session != null) {
+    if (login != null && login.session != null) {
       if (context.mounted) {
         context.go("/home");
       }

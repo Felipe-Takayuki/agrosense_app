@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:agrosense_app/app/service/supabase_service.dart';
+import 'package:agrosense_app/app/ui/widgets/alert_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,12 +33,14 @@ class AuthController extends ChangeNotifier {
       }
     }
   }
+
   Future<void> signOut(BuildContext context) async {
     await supabase.signOut();
     if (context.mounted) {
       context.go("/sign_in");
     }
   }
+
   Future<void> signUp(String name, String email, String password,
       BuildContext context, double width) async {
     try {
@@ -46,40 +49,9 @@ class AuthController extends ChangeNotifier {
         if (context.mounted) {
           showDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                      title: Column(
-                        children: [
-                          Container(
-                            width: width * .2,
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.green),
-                            child: Icon(
-                              Icons.check,
-                              size: width * .05,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'E-mail de confirmação enviado\n confirme o e-mail',
-                            style: Theme.of(context).textTheme.labelLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      actionsAlignment: MainAxisAlignment.center,
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: Text(
-                            "OK",
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                        )
-                      ]));
+              builder: (context) {
+                return AlertModal(width: width);
+              });
         }
 
         notifyListeners();

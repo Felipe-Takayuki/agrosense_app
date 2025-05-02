@@ -145,7 +145,7 @@ class _SignInState extends State<SignIn> {
                                   text: "Crie agora",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 214, 173, 10),
-                                      fontWeight: FontWeight.bold))
+                                      fontWeight: FontWeight.bold) )
                             ]),
                       )),
                   SizedBox(

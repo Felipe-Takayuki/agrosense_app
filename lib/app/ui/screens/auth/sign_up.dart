@@ -32,7 +32,7 @@ class _SignUpState extends State<SignUp> {
     final sizeOf = MediaQuery.sizeOf(context);
 
     var safeArea = SafeArea(
-      child: TemplateWidget(
+      child:TemplateWidget(
         height: sizeOf.height,
         child: Form(
           child: SingleChildScrollView(
@@ -118,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                                       context,
                                       sizeOf.width);
                                 },
-                                child: Text(
+                                child:controller.isLoading ? CircularProgressIndicator() : Text(
                                   "Cadastrar-se",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
@@ -169,7 +169,7 @@ class _SignUpState extends State<SignUp> {
     );
     return Scaffold(
       body: ListenableBuilder(
-          listenable: controller, builder: (context, child) => safeArea),
+          listenable: controller, builder: (context, child) => controller.isLoading ? Center(child: CircularProgressIndicator()) : safeArea),
     );
   }
 }

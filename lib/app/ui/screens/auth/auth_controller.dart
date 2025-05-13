@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:agrosense_app/app/service/supabase_service.dart';
 import 'package:agrosense_app/app/ui/widgets/alert_modal.dart';
 import 'package:flutter/material.dart';
@@ -7,30 +6,50 @@ import 'package:go_router/go_router.dart';
 
 class AuthController extends ChangeNotifier {
   final supabase = SupabaseService();
+  bool isLoading = false;
+
+  void setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
 
   Future<void> signIn(email, password, BuildContext context) async {
-    final login = await supabase.login(email, password);
-    if (login.session != null) {
-      if (context.mounted) {
-        context.go("/home");
+    try {
+      setLoading(true);
+      final login = await supabase.login(email, password);
+      if (login.session != null) {
+        if (context.mounted) {
+          context.go("/home");
+        }
+      } else {
+        log("Erro");
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Falha no login')),
+          );
+          notifyListeners();
+        }
       }
-    } else {
-      log("Erro");
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Falha no login')),
-        );
-        notifyListeners();
-      }
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      setLoading(false);
     }
   }
 
   Future<void> googleSignInOrSignUp(BuildContext context) async {
-    final login = await supabase.googleSignIn();
-    if (login != null && login.session != null) {
-      if (context.mounted) {
-        context.go("/home");
+    try {
+      setLoading(true);
+      final login = await supabase.googleSignIn();
+      if (login != null && login.session != null) {
+        if (context.mounted) {
+          context.go("/home");
+        }
       }
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      setLoading(false);
     }
   }
 

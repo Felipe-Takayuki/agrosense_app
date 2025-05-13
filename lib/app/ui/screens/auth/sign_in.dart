@@ -109,7 +109,7 @@ class _SignInState extends State<SignIn> {
                                   controller.signIn(emailController.text,
                                       passwordController.text, context);
                                 },
-                                child: Text(
+                                child:controller.isLoading ? CircularProgressIndicator() : Text(
                                   "Entrar",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
@@ -160,7 +160,7 @@ class _SignInState extends State<SignIn> {
     );
     return Scaffold(
       body: ListenableBuilder(
-          listenable: controller, builder: (context, child) => safeArea),
+          listenable: controller, builder: (context, child) => controller.isLoading ? Center(child: CircularProgressIndicator()) : safeArea),
     );
   }
 }

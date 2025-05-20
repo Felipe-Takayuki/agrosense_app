@@ -1,11 +1,8 @@
 import 'dart:io';
-import 'package:agrosense_app/app/repository/camera_repository.dart';
-import 'package:agrosense_app/app/repository/trap_service.dart';
 import 'package:agrosense_app/app/ui/screens/camera/camera_controller.dart';
 import 'package:agrosense_app/app/ui/widgets/template.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:go_router/go_router.dart';
 
 class CameraTela extends StatefulWidget {
   const CameraTela({super.key});

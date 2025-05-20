@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CameraService {
+class CameraRepository {
   Future<SharedPreferences> _instance() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences;

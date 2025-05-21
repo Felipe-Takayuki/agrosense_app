@@ -28,39 +28,47 @@ class TrapRepository {
     ).toJson()));
 
     await instance.setStringList('traps', listaAtual);
+    log("lista atualizada! ${listaAtual.toString()}");
   }
 
   Future<List<TrapModel>> getTraps() async {
     final instance = await _instance();
     List<String> rawList = instance.getStringList('traps') ?? [];
     log("traps do repo: ${rawList.length}");
-    return rawList.map((item) {
+    final lista = rawList.map((item) {
       final decoded = jsonDecode(item);
+      log("items de getTraps");
+      log(item);
       return TrapModel.fromJson(decoded);
     }).toList();
+
+    return lista;
   }
 
-Future<void> saveTrap(String trapName, String imagePath) async {
-  final instance = await _instance();
-  final meteoService = OpenMeteoService();
-  final weatherInfos = await meteoService.getOpenMeteoInfo();
+  Future<void> saveTrap(String trapName, String imagePath) async {
+    try {
+      final instance = await _instance();
+      final meteoService = OpenMeteoService();
+      final weatherInfos = await meteoService.getOpenMeteoInfo();
 
-  final trap = TrapModel(
-    imagePath: imagePath,
-    name: trapName,
-    date: DateTime.now(),
-    weatherModel: WeatherModel(
-      airHumidity: weatherInfos.airHumidity,
-      temperature: weatherInfos.temperature,
-      windDirection: weatherInfos.windDirection,
-    ),
-  );
-  final trapJson = jsonEncode(trap.toJson());
+      final trap = TrapModel(
+        imagePath: imagePath,
+        name: trapName,
+        date: DateTime.now(),
+        weatherModel: WeatherModel(
+          airHumidity: weatherInfos.airHumidity,
+          temperature: weatherInfos.temperature,
+          windDirection: weatherInfos.windDirection,
+        ),
+      );
+      final trapJson = jsonEncode(trap.toJson());
 
-  List<String> listaAtual = instance.getStringList('traps') ?? [];
+      List<String> listaAtual = instance.getStringList('traps') ?? [];
 
-  listaAtual.add(trapJson);
-  await instance.setStringList('traps', listaAtual);
-}
-
+      listaAtual.add(trapJson);
+      await instance.setStringList('traps', listaAtual);
+    } catch (e) {
+      log("erro ao tentar salvar armadilha", error: e);
+    }
+  }
 }

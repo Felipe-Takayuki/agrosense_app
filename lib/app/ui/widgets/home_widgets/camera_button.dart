@@ -14,17 +14,11 @@ class CameraButton extends StatefulWidget {
 }
 
 class _CameraButtonState extends State<CameraButton> {
-
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        final didSave = await context.push<bool>('/camera');
-        if (didSave == true) {
-          widget.controller.loadImages();
-        }
-
+      onTap: () {
+        context.go("/camera");
       },
       child: Container(
         width: widget.size.width * .9,

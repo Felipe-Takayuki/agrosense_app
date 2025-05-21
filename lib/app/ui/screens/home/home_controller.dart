@@ -3,31 +3,31 @@ import 'dart:io';
 import 'package:agrosense_app/app/model/trap_model.dart';
 import 'package:agrosense_app/app/repository/camera_repository.dart';
 import 'package:agrosense_app/app/repository/trap_service.dart';
-import 'package:agrosense_app/app/ui/screens/auth/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:gal/gal.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomeController extends ChangeNotifier {
   final CameraRepository _cameraRepository = CameraRepository();
-  final AuthController authController = AuthController();
+  final TrapRepository _trapRepository = TrapRepository();
+
   List<TrapModel> traps = [];
   TrapModel? _selectedTrap;
   String? imagem;
 
   TrapModel? get selectedTrap => _selectedTrap;
-  
+
   set selectedTrap(TrapModel? value) {
     _selectedTrap = value;
     notifyListeners();
   }
 
   void loadTraps() async {
-    
-    TrapRepository trapRepository = TrapRepository();
-    trapRepository.getTraps().then((value) {
+    _trapRepository.getTraps().then((value) {
       if (value.isNotEmpty) {
         traps = value;
+        log("traps recarregadas:\n ${ value.length.toString()}");
+
         notifyListeners();
       }
     });

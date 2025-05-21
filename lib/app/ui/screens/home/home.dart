@@ -1,3 +1,4 @@
+import 'package:agrosense_app/app/service/detection_service.dart';
 import 'package:agrosense_app/app/service/supabase_service.dart';
 import 'package:agrosense_app/app/ui/screens/home/home_controller.dart';
 import 'package:agrosense_app/app/ui/widgets/home_widgets/camera_button.dart';
@@ -45,53 +46,87 @@ class _HomeState extends State<Home> {
             builder: (context, state) {
               return SafeArea(
                 child: SingleChildScrollView(
-                  child: TemplateWidget(
-                    height: size.height,
-                    child: Center(
-                      child: SizedBox(
-                        width: size.width * .9,
-                        child: Column(
-                          spacing: size.height * .01,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 12),
-                            CameraButton(
-                              controller: controller,
-                              size: size,
-                            ),
-                            SizedBox(
-                              width: size.width * .88,
-                              child: ElevatedButton(
-                                onPressed: () async {},
-                                child: const Text(
-                                  "Análisar Imagem",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                            ),
-                            if (controller.imagem != null)
-                              CarroselComponent(
-                                  controller: controller, size: size),
-                            if (controller.selectedTrap != null)
-                              WeatherComponent(
-                                  controller: controller, size: size),
-                            SizedBox(
-                              width: size.width * .88,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  controller.saveAllImages();
-                                },
-                                child: const Text(
-                                  "Salvar Imagens na Galeria",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: 
+                    TemplateWidget(
+
+  
+  child: Align(
+    alignment: Alignment.topCenter,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,    // <<--- !
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 12),
+        CameraButton(controller: controller, size: size),
+        SizedBox(
+          width: size.width * .88,
+          child: ElevatedButton(
+            onPressed: () async => DetectionService().testConnection(),
+            child: const Text("Análisar Imagem", style: TextStyle(color: Colors.black)),
+          ),
+        ),
+        if (controller.imagem != null)
+          CarroselComponent(controller: controller, size: size),
+        if (controller.selectedTrap != null)
+          WeatherComponent(controller: controller, size: size),
+        SizedBox(
+          width: size.width * .88,
+          child: ElevatedButton(
+            onPressed: controller.saveAllImages,
+            child: const Text("Salvar Imagens na Galeria", style: TextStyle(color: Colors.black)),
+          ),
+        ),
+      ],
+    ),
+  ),
+)
+
+                    // TemplateWidget(
+                    //   height: size.height,
+                    //   child: Center(
+                    //     child: Column(
+                    //       spacing: size.height * .01,
+                    //       mainAxisAlignment: MainAxisAlignment.start,
+                    //       crossAxisAlignment: CrossAxisAlignment.center,
+                    //       children: [
+                    //         const SizedBox(height: 12),
+                    //         CameraButton(
+                    //           controller: controller,
+                    //           size: size,
+                    //         ),
+                    //         SizedBox(
+                    //           width: size.width * .88,
+                    //           child: ElevatedButton(
+                    //             onPressed: () async {
+                    //               DetectionService().testConnection();
+                    //             },
+                    //             child: const Text(
+                    //               "Análisar Imagem",
+                    //               style: TextStyle(color: Colors.black),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //         controller.imagem != null ?
+                    //           CarroselComponent(
+                    //               controller: controller, size: size) : Text(""),
+                    //         controller.selectedTrap != null?
+                    //           WeatherComponent(
+                    //               controller: controller, size: size):Text(''),
+                    //         ElevatedButton(
+                    //           onPressed: () {
+                    //             controller.saveAllImages();
+                    //           },
+                    //           child: const Text(
+                    //             "Salvar Imagens na Galeria",
+                    //             style: TextStyle(color: Colors.black),
+                    //           ),
+                    //         )
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ),
                 ),
               );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:agrosense_app/app/repository/camera_repository.dart';
 import 'package:agrosense_app/app/repository/trap_service.dart';
 import 'package:camera/camera.dart';
@@ -8,20 +10,25 @@ class CamController extends ChangeNotifier {
   CameraController? controller;
   TrapRepository trapRepository = TrapRepository();
   CameraRepository cameraRepository = CameraRepository();
-  List<CameraDescription> cameras = [];
+  List<CameraDescription> _cameras = [];
   XFile? imagem;
-
+  bool loading = false;
   double _minZoom = 0;
   double _maxZoom = 0;
   double _baseZoom = 0;
   double _currentZoom = 0;
 
-  startCamera() {
-    if (cameras.isEmpty) {
+  _startCamera() {
+    if (_cameras.isEmpty) {
       debugPrint('Câmera não foi encontrada');
     } else {
-      previewCamera(cameras.first);
+      previewCamera(_cameras.first);
     }
+  }
+
+  setLoading(bool value) {
+    loading = value;
+    notifyListeners();
   }
 
   tirarFoto() async {
@@ -35,11 +42,11 @@ class CamController extends ChangeNotifier {
         cameraController.getMinZoomLevel();
         XFile file = await cameraController.takePicture();
         imagem = file;
-        notifyListeners();
       } on CameraException catch (e) {
         debugPrint(e.description);
       }
     }
+    notifyListeners();
   }
 
   handleScaleUpdate(ScaleUpdateDetails details) async {
@@ -55,17 +62,26 @@ class CamController extends ChangeNotifier {
     notifyListeners();
   }
 
-  saveTrap(String trapName, BuildContext context) {
-    trapRepository.addTrap(trapName, imagem!.path);
-    cameraRepository.saveImage(imagem!.path);
-    notifyListeners();
-    context.pop(true);
+  saveTrap(String trapName, BuildContext context) async {
+    try {
+      setLoading(true);
+      await trapRepository.addTrap(trapName, imagem!.path);
+      cameraRepository.saveImage(imagem!.path);
+      notifyListeners();
+      if (context.mounted) {
+        context.go("/home");
+      }
+    } catch (e) {
+      log("Erro ao salvar trap", error: e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   loadCameras() async {
     try {
-      cameras = await availableCameras();
-      startCamera();
+      _cameras = await availableCameras();
+      _startCamera();
     } on CameraException catch (e) {
       debugPrint(e.description);
     }

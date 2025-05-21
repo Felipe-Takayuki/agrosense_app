@@ -34,7 +34,10 @@ class _CameraTelaState extends State<CameraTela> {
     return Scaffold(
       body: ListenableBuilder(
         builder: (context, state) {
-          return TemplateWidget(
+          return 
+          camController.loading ?
+          Center(child: CircularProgressIndicator()) : 
+          TemplateWidget(
             height: size!.height,
             child: Column(
               children: [_arquivoWidget()],
